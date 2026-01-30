@@ -7,6 +7,8 @@ interface NavigationProps {
   onNext: () => void;
   onPrev: () => void;
   onGoTo: (index: number) => void;
+  progress: number;
+  isAutoPlaying: boolean;
 }
 
 const Navigation: React.FC<NavigationProps> = ({
@@ -14,7 +16,9 @@ const Navigation: React.FC<NavigationProps> = ({
   totalSections,
   onNext,
   onPrev,
-  onGoTo
+  onGoTo,
+  progress,
+  isAutoPlaying
 }) => {
   return (
     <div className="fixed bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 z-40">
@@ -32,12 +36,22 @@ const Navigation: React.FC<NavigationProps> = ({
             <button
               key={index}
               onClick={() => onGoTo(index)}
-              className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full animate-ultra-smooth hover:scale-150 ${
+              className={`relative rounded-full animate-ultra-smooth hover:scale-150 overflow-hidden ${
                 index === currentSection
-                  ? 'bg-orange-500 w-4 md:w-6 animate-pulse-glow'
-                  : 'bg-gray-300 hover:bg-orange-400 hover:animate-wiggle'
+                  ? 'w-4 md:w-6 h-1.5 md:h-2'
+                  : 'w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-300 hover:bg-orange-400'
               }`}
-            />
+            >
+              {index === currentSection && (
+                <>
+                  <div className="absolute inset-0 bg-gray-300" />
+                  <div 
+                    className="absolute inset-0 bg-orange-500 transition-all duration-100 ease-linear"
+                    style={{ width: isAutoPlaying ? `${progress}%` : '100%' }}
+                  />
+                </>
+              )}
+            </button>
           ))}
         </div>
 

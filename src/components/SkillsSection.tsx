@@ -33,12 +33,12 @@ const SkillsSection: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto text-center">
-      <div className="mb-12 animate-scale-in">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-orange-500 bg-clip-text text-transparent animate-gradient">
+    <div className="max-w-4xl mx-auto text-center pt-20">
+      <div className="mb-12 animate-fade-in">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">
           Skills & Expertise
         </h2>
-        <p className="text-lg text-gray-600 animate-slide-up delay-300">
+        <p className="text-lg text-gray-600 animate-fade-in delay-100">
           Specialized in modern technologies and development practices
         </p>
       </div>
@@ -47,14 +47,14 @@ const SkillsSection: React.FC = () => {
         {skillCategories.map((category, index) => (
           <div
             key={index}
-            className="bg-white rounded-xl p-8 shadow-sm hover:shadow-2xl animate-ultra-smooth hover:scale-105 hover:-translate-y-6 animate-bounce-in group cursor-pointer"
-            style={{ animationDelay: `${500 + index * 200}ms` }}
+            className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 animate-fade-in group cursor-pointer"
+            style={{ animationDelay: `${index * 100}ms` }}
           >
-            <div className={`w-16 h-16 ${category.color} rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:animate-rotate-slow animate-float group-hover:shadow-xl animate-smooth-hover`}>
-              <category.icon size={28} className="text-white group-hover:scale-125 animate-smooth-hover" />
+            <div className={`w-16 h-16 ${category.color} rounded-lg flex items-center justify-center mx-auto mb-6 transition-transform duration-300`}>
+              <category.icon size={28} className="text-white group-hover:scale-110 transition-transform duration-300" />
             </div>
             
-            <h3 className="text-xl font-semibold text-gray-900 mb-6 group-hover:text-indigo-600 animate-smooth-hover">
+            <h3 className="text-xl font-semibold text-gray-900 mb-6 group-hover:text-indigo-600 transition-colors duration-300">
               {category.title}
             </h3>
             
@@ -62,7 +62,7 @@ const SkillsSection: React.FC = () => {
               {category.skills.map((skill, skillIndex) => (
                 <div
                   key={skillIndex}
-                  className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-indigo-100 hover:text-indigo-700 animate-smooth-hover hover:scale-110 hover:shadow-lg cursor-pointer hover:-translate-y-1"
+                  className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-indigo-100 hover:text-indigo-700 transition-all duration-300 cursor-pointer"
                 >
                   {skill}
                 </div>

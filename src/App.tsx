@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import SummarySection from './components/SummarySection';
@@ -21,16 +21,58 @@ const sections = [
 
 function App() {
   const [currentSection, setCurrentSection] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (!isAutoPlaying) {
+      setProgress(0);
+      return;
+    }
+
+    const duration = 5000; // 5 seconds per section
+    const interval = 50; // Update every 50ms
+    const increment = (interval / duration) * 100;
+
+    setProgress(0);
+
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        const newProgress = prev + increment;
+        if (newProgress >= 100) {
+          clearInterval(progressInterval);
+          return 100;
+        }
+        return newProgress;
+      });
+    }, interval);
+
+    const autoPlayTimer = setTimeout(() => {
+      if (currentSection < sections.length - 1) {
+        setCurrentSection((prev) => prev + 1);
+      } else {
+        setIsAutoPlaying(false); // Stop autoplay when reaching the last section
+      }
+    }, duration);
+
+    return () => {
+      clearTimeout(autoPlayTimer);
+      clearInterval(progressInterval);
+    };
+  }, [currentSection, isAutoPlaying]);
 
   const nextSection = () => {
+    setIsAutoPlaying(false); // Pause autoplay on user interaction
     setCurrentSection((prev) => (prev + 1) % sections.length);
   };
 
   const prevSection = () => {
+    setIsAutoPlaying(false); // Pause autoplay on user interaction
     setCurrentSection((prev) => (prev - 1 + sections.length) % sections.length);
   };
 
   const goToSection = (index: number) => {
+    setIsAutoPlaying(false); // Pause autoplay on user interaction
     setCurrentSection(index);
   };
 
@@ -54,6 +96,8 @@ function App() {
           onNext={nextSection}
           onPrev={prevSection}
           onGoTo={goToSection}
+          progress={progress}
+          isAutoPlaying={isAutoPlaying}
         />
       </main>
     </div>
